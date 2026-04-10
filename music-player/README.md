@@ -1,44 +1,77 @@
-# Musify - React Music Web App 🎵
+# Musify 🎵
 
-A fully functional, modern music web application built with React. This project fulfills the Milestone 1-3 requirements for the academic project.
+Musify is a fully functional, modern, and responsive music web application built with React. It provides real-time access to the latest top pop tracks and allows users to search, filter, sort, and save their favorite songs. This project is built utilizing clean architecture, custom hooks, and strictly uses Array Higher Order Functions for complex data state management.
 
-## Features
+## 🚀 Live Demo
 
-- **Real-Time Data Fetching:** Automatically fetches the top pop tracks from the **iTunes Search API**. 
+**[https://music-player-liart-nu.vercel.app](https://music-player-liart-nu.vercel.app)**
+
+## ✨ Features
+
+- **Real-Time Data via API Fetching:** Automatically fetches the top tracks from iTunes, securely managing loading and error states.
 - **Dynamic Search:** Instantly search for songs or artists as you type. Implements **debouncing** to optimize rendering and filtering logic.
-- **Filter & Sort:** Use dropdowns to seamlessly filter by a specific artist or explicitly sort tracks alphabetically (A-Z or Z-A).
-- **Favorites:** Toggle your favorite tracks with the heart ❤️ button. Favorites are persistently stored in your browser's `localStorage` so your choices aren't lost on refresh.
-- **Responsive & Modern UI:** Uses Pure CSS variables for a sleek design supporting both desktop and mobile views. Includes a smooth **Dark/Light Mode** toggle feature.
+- **Filter & Sort:** Seamlessly filter by a specific artist or sort tracks alphabetically (A-Z or Z-A) to find exactly what you're looking for.
+- **Favorites Management:** Toggle your favorite tracks. Favorites are persistently stored using a custom `useLocalStorage` hook so your choices remain even after a page refresh.
+- **Modern Responsive UI:** Features a glassmorphism interface, custom Dark/Light Mode, aesthetic hover animations, and a fully mobile-responsive pure CSS layout.
 
-## Technology Stack 
+## 📸 Screenshots
 
-- **Frontend:** React (Functional Components + Hooks: `useState`, `useEffect`)
-- **API Fetching:** Native JavaScript `fetch()` API
-- **Styling:** Pure CSS (No external UI libraries like Bootstrap or Tailwind)
+![Musify Homepage Placeholder](https://via.placeholder.com/800x450.png?text=Homepage+Screenshot)
 
-## Academic Requirements Satisfied
+![Dark Mode View](https://via.placeholder.com/800x450.png?text=Dark+Mode+Screenshot)
 
-### Milestone 1
-- Clear project structure separated into logical components (`Header`, `SearchBar`, `SongList`, `SongCard`).
-- Clean, descriptive README.md.
-- Integration with the public iTunes API.
+## 💻 Tech Stack Used
 
-### Milestone 2
-- Use `fetch()` to retrieve data gracefully.
-- Dynamic data mapping for display.
-- Loading and error states safely handled.
-- Responsive mobile-first pure CSS design.
+- **Frontend:** HTML5, pure CSS3 (Vanilla), JavaScript (ES6+), React 18+
+- **Build Tool:** Vite
+- **Data Management:** React Hooks (`useState`, `useEffect`) and Custom Persistent Hooks
+- **Logic:** Native Array Methods (`.map()`, `.filter()`, `.sort()`) — strictly no `for`/`while` loops.
 
-### Milestone 3 (Higher Order Functions Only!)
-*Absolutely no `for` or `while` loops are used across the functionality. Everything operates on Array Higher-Order Functions.*
-1. **Search:** Utilizes `.filter()` to dynamically check track names and artist names for query inclusion.
-2. **Filter:** Extracts unique artists using chained `.map()` and `.filter()`, then applies a secondary `.filter()` to show specific subsets of songs or Favorites.
-3. **Sort:** Leverages `.sort()` strictly to manage lexicographical ordering cleanly.
-4. **Interaction:** Click handlers and state updates employ purely functional styles via `.filter()` arrays or spreading values (`...`).
+## 🔌 API Used
 
-## Setup Instructions
+This project utilizes the public [Apple iTunes Search API](https://developer.apple.com/library/archive/documentation/AudioVideo/Conceptual/iTuneSearchAPI/index.html) to dynamically fetch current music track data. Endpoint format:
+`https://itunes.apple.com/search?term=pop&media=music&limit=50`
 
-1. Ensure Node.js is installed.
-2. Clone or download the directory and run `npm install`.
-3. Start the application using `npm run dev`.
-4. The application will be accessible at `http://localhost:5173`.
+## ⚙️ Setup Instructions
+
+To run this project locally, simply follow these steps:
+
+1. **Pre-requisites:** Ensure you have [Node.js](https://nodejs.org/) installed.
+2. **Clone the repository:**
+   ```bash
+   git clone <your-repo-link>
+   cd music-player
+   ```
+3. **Install Dependencies:**
+   ```bash
+   npm install
+   ```
+4. **Start the Development Server:**
+   ```bash
+   npm run dev
+   ```
+5. **Open in Browser:** Navigate to `http://localhost:5173`
+
+## 📁 Folder Structure
+
+```text
+music-player/
+├── public/                # Static public assets
+├── src/
+│   ├── assets/            # Local images or icons
+│   ├── components/        # Isolated reusable React components
+│   │   ├── Header.jsx
+│   │   ├── SearchBar.jsx
+│   │   ├── SongCard.jsx
+│   │   └── SongList.jsx
+│   ├── hooks/             # Custom extracted logic
+│   │   ├── useDebounce.js
+│   │   ├── useLocalStorage.js
+│   │   └── useMusic.js
+│   ├── App.jsx            # Main application root and layout
+│   ├── index.css          # Fully comprehensive Pure CSS design system
+│   └── main.jsx           # React app mount entry point
+├── package.json           # Dependencies and scripts workflows
+├── vite.config.js         # Vite bundler configurations
+└── README.md              # Project documentation
+```

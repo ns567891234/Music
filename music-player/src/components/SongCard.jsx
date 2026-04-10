@@ -1,6 +1,23 @@
-import React from 'react';
+import React, { useState, useRef } from 'react';
 
 const SongCard = ({ song, isFavorite, toggleFavorite }) => {
+  const [isPlaying, setIsPlaying] = useState(false);
+  const audioRef = useRef(null);
+
+  const togglePlay = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    if (!audioRef.current) return;
+    
+    if (isPlaying) {
+      audioRef.current.pause();
+    } else {
+      // Pause ALL other audio elements on the page before playing exactly this one
+      document.querySelectorAll('audio').forEach(el => el.pause());
+      audioRef.current.play().catch(err => console.error("Playback failed", err));
+    }
+  };
+
   return (
     <div className="song-card">
       <div className="artwork-container">
@@ -11,9 +28,23 @@ const SongCard = ({ song, isFavorite, toggleFavorite }) => {
           loading="lazy"
         />
         {song.previewUrl && (
-          <a href={song.previewUrl} target="_blank" rel="noopener noreferrer" className="play-button-overlay" aria-label="Play preview">
-            ▶
-          </a>
+          <>
+            <button 
+              onClick={togglePlay} 
+              className="play-button-overlay" 
+              aria-label={isPlaying ? "Pause preview" : "Play preview"}
+              style={{ border: 'none', cursor: 'pointer', fontSize: '24px' }}
+            >
+               {isPlaying ? '⏸' : '▶'}
+            </button>
+            <audio 
+              ref={audioRef} 
+              src={song.previewUrl} 
+              onPlay={() => setIsPlaying(true)}
+              onPause={() => setIsPlaying(false)}
+              onEnded={() => setIsPlaying(false)}
+            />
+          </>
         )}
       </div>
       

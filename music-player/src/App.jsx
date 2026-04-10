@@ -2,65 +2,28 @@ import React, { useState, useEffect } from 'react';
 import Header from './components/Header';
 import SearchBar from './components/SearchBar';
 import SongList from './components/SongList';
+import useLocalStorage from './hooks/useLocalStorage';
+import useDebounce from './hooks/useDebounce';
+import useMusic from './hooks/useMusic';
 import './index.css';
 
 function App() {
-  const [songs, setSongs] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const { songs, loading, error } = useMusic('https://itunes.apple.com/search?term=pop&media=music&limit=50');
   
   const [searchInput, setSearchInput] = useState('');
-  const [debouncedQuery, setDebouncedQuery] = useState('');
+  const debouncedQuery = useDebounce(searchInput, 300);
+  
   const [filterArtist, setFilterArtist] = useState('All');
   const [sortBy, setSortBy] = useState('Default');
   
-  const [favorites, setFavorites] = useState(() => {
-    try {
-      const saved = localStorage.getItem('musicFavorites');
-      return saved ? JSON.parse(saved) : [];
-    } catch {
-      return [];
-    }
-  });
-  
-  const [theme, setTheme] = useState('dark');
-
-  // Milestone 2: Fetch data from API using fetch()
-  useEffect(() => {
-    const fetchMusic = async () => {
-      try {
-        setLoading(true);
-        // Using iTunes API as requested
-        const res = await fetch('https://itunes.apple.com/search?term=pop&media=music&limit=50');
-        if (!res.ok) throw new Error('Failed to fetch data');
-        const data = await res.json();
-        setSongs(data.results);
-      } catch (err) {
-        setError(err.message);
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchMusic();
-  }, []);
-
-  // Sync favorites with localStorage
-  useEffect(() => {
-    localStorage.setItem('musicFavorites', JSON.stringify(favorites));
-  }, [favorites]);
+  // Custom hooks for persistent storage
+  const [favorites, setFavorites] = useLocalStorage('musicFavorites', []);
+  const [theme, setTheme] = useLocalStorage('theme', 'dark');
 
   // Apply theme class to body
   useEffect(() => {
     document.body.className = theme;
   }, [theme]);
-
-  // Bonus: Debouncing in search
-  useEffect(() => {
-    const handler = setTimeout(() => {
-      setDebouncedQuery(searchInput);
-    }, 300);
-    return () => clearTimeout(handler);
-  }, [searchInput]);
 
   const toggleFavorite = (songId) => {
     setFavorites(prev => 
