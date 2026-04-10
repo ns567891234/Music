@@ -52,6 +52,16 @@ To run this project locally, simply follow these steps:
    ```
 5. **Open in Browser:** Navigate to `http://localhost:5173`
 
+## 🚀 Deployment (Netlify Ready)
+
+This project has been pre-configured to bundle into an `out` folder for seamless Netlify deployment.
+1. Run `npm run build` to generate the static files inside the `out/` directory.
+2. Drag and drop the `out/` directory directly into Netlify, or connect this GitHub repository in Netlify assigning the **Build output directory** to `out`.
+
+## 🎵 Interactive Audio
+
+Tracks include an active **HTML5 Audio Player**! Pressing the **▶ Play** button embedded on any card will play the track's preview directly within the application and automatically prioritize playing one song at a time.
+
 ## 📁 Folder Structure
 
 ```text
